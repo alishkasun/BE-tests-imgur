@@ -1,12 +1,11 @@
 package ru.geekbrains.tests;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 
+import static geekbrains.base.Endpoints.UPLOAD_IMAGE;
 import static io.restassured.RestAssured.given;
 
 public class DeleteImageTests extends BaseTest {
@@ -20,20 +19,19 @@ public class DeleteImageTests extends BaseTest {
         imageDeleteHash = uploadImage(imageName);
 
         given()
-                .header("Authorization", token)
+                .spec(requestSpecification)
                 .when()
                 .delete("image/{imageHash}", imageDeleteHash)
-                .prettyPeek()
-                .then()
-                .statusCode(200);
+                .prettyPeek();
+
     }
 
     private String uploadImage(String imageName) {
         return given()
-                .header("Authorization", token)
+                .spec(requestSpecification)
                 .body(new File("src/test/resources/" + imageName))
                 .when()
-                .post("/image")
+                .post(UPLOAD_IMAGE)
                 .jsonPath()
                 .get("data.deletehash");
     }
