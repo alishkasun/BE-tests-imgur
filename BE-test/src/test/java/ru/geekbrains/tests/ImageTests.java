@@ -1,5 +1,6 @@
 package ru.geekbrains.tests;
 
+import geekbrains.base.Images;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
 import org.apache.commons.io.FileUtils;
@@ -7,6 +8,8 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,15 +28,6 @@ public class ImageTests extends BaseTest {
     static ResponseSpecification FofBigFileResponseSpecification;
     static ResponseSpecification TextFileResponseSpecification;
 
-    static final String MORE_10Mb = "src/test/resources/More10Mb.jpg";
-    static final String ONE_TO_ONE = "src/test/resources/OnetoOne.jpg";
-    static final String TEST_JPG = "src/test/resources/image.jpg";
-    static final String TEST_BMP = "src/test/resources/imagefor.bmp";
-    static final String TEST_GIF = "src/test/resources/forgif.gif";
-    static final String BEFORE_10Mb = "src/test/resources/before10Mb.jpg";
-    static final String TEXT = "src/test/resources/text.txt";
-
-
 
     @BeforeEach
     void setUp() throws IOException {
@@ -41,6 +35,27 @@ public class ImageTests extends BaseTest {
         base64Image = Base64.getEncoder().encodeToString(imageBytesArray);
     }
 
+
+//    Попробовала. Не всегда первый тест отрабатывет. Разберусь позже.
+    //https://www.baeldung.com/parameterized-tests-junit-5
+//    @ParameterizedTest
+//    @EnumSource(value = Images.class, names = {"TEST_JPG", "TEST_BMP"})
+//    void uploadImageWithAllowedFormat(Images image) {
+//        imageDeleteHash=  given()
+//                .headers("Authorization", token)
+//                .multiPart("image", new File(image.getPath()))
+//                .expect()
+//                .body("data.type", equalTo(image.getFormat()))
+//                .when()
+//                .post("https://api.imgur.com/3/image")
+//                .prettyPeek()
+//                .then()
+//                .extract()
+//                .response()
+//                .jsonPath()
+//                .getString("data.deletehash");
+//
+//    }
     // PNG
     @Test
     void uploadImageFileTestPng() {
@@ -66,7 +81,7 @@ public class ImageTests extends BaseTest {
     void uploadImageFileTestJpg() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(TEST_JPG))
+                .multiPart("image", new File(TEST_JPG.getPath()))
                 .expect()
                 .spec(positiveResponseSpecification)
                 .body("data.id", is(notNullValue()))
@@ -82,12 +97,12 @@ public class ImageTests extends BaseTest {
 
     }
 
-    //BMP
+//    BMP
     @Test
     void uploadImageFileTestBmp() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(TEST_BMP))
+                .multiPart("image", new File(TEST_BMP.getPath()))
                 .expect()
                 .spec(positiveResponseSpecification)
                 .body("data.datetime", is(notNullValue()))
@@ -108,7 +123,7 @@ public class ImageTests extends BaseTest {
     void uploadImageFileTestForGif() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(TEST_GIF))
+                .multiPart("image", new File(TEST_GIF.getPath()))
                 .expect()
                 .spec(positiveResponseSpecification)
                 .body("data.account_id", is(notNullValue()))
@@ -129,7 +144,7 @@ public class ImageTests extends BaseTest {
     void uploadImageFileTestBefore10Mb() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(BEFORE_10Mb))
+                .multiPart("image", new File(BEFORE_10Mb.getPath()))
                 .expect()
                 .spec(positiveResponseSpecification)
                 .body("data.account_id", is(notNullValue()))
@@ -150,7 +165,7 @@ public class ImageTests extends BaseTest {
     void uploadImageFileTest1x1() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(ONE_TO_ONE))
+                .multiPart("image", new File(ONE_TO_ONE.getPath()))
                 .expect()
                 .spec(positiveResponseSpecification)
                 .body("data.account_id", is(notNullValue()))
@@ -244,7 +259,7 @@ public class ImageTests extends BaseTest {
 
         given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(MORE_10Mb))
+                .multiPart("image", new File(MORE_10Mb.getPath()))
                 .expect()
                 .spec(FofBigFileResponseSpecification)
                 .when()
@@ -266,7 +281,7 @@ public class ImageTests extends BaseTest {
 
         given()
                 .spec(requestSpecification)
-                .multiPart("image", new File(TEXT))
+                .multiPart("image", new File(TEXT.getPath()))
                 .expect()
                 .spec(TextFileResponseSpecification)
                 .when()
@@ -275,12 +290,12 @@ public class ImageTests extends BaseTest {
 
 
     }
-    //не работает, говорит "message": "File type invalid (1)", не пойму как подгрузить
+
     @Test
     void uploadImageFileTestVideo() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
-                .multiPart("image", new File("src/test/resources/video.mp4"))
+                .multiPart("video", new File(VIDEO.getPath()))
                 .expect()
                 .spec(positiveResponseSpecification)
                 .when()
