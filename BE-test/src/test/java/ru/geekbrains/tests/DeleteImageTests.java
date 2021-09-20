@@ -1,5 +1,6 @@
 package ru.geekbrains.tests;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -12,7 +13,7 @@ public class DeleteImageTests extends BaseTest {
 
     String imageDeleteHash;
 
-
+    @Step
     @ParameterizedTest
     @ValueSource(strings = {"img.png", "forgif.gif", "before10Mb.jpg", "image.jpg", "imagefor.bmp", "img.png", "OnetoOne.jpg"})
     void deleteExistentImageTest(String imageName) {
@@ -25,7 +26,7 @@ public class DeleteImageTests extends BaseTest {
                 .prettyPeek();
 
     }
-
+    @Step
     private String uploadImage(String imageName) {
         return given()
                 .spec(requestSpecification)
