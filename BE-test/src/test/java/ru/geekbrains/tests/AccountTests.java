@@ -1,5 +1,6 @@
 package ru.geekbrains.tests;
 
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
@@ -23,6 +24,7 @@ public class  AccountTests extends BaseTest{
     ResponseSpecification accountResponseSpec;
 
     @Test
+    @Step
     void getAccountPositiveTest() {
         accountResponseSpec = positiveResponseSpecification
                 .expect()
@@ -35,6 +37,7 @@ public class  AccountTests extends BaseTest{
     }
 
     @Test
+    @Step
     void getAccountSettingsTest() {
         Response response = given()
                 .expect()

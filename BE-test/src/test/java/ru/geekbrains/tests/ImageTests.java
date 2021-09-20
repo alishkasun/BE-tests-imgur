@@ -1,6 +1,7 @@
 package ru.geekbrains.tests;
 
 import geekbrains.base.Images;
+import io.qameta.allure.Step;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
 import org.apache.commons.io.FileUtils;
@@ -58,6 +59,7 @@ public class ImageTests extends BaseTest {
 //    }
     // PNG
     @Test
+    @Step
     void uploadImageFileTestPng() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -78,6 +80,7 @@ public class ImageTests extends BaseTest {
 
     //JPG
     @Test
+    @Step
     void uploadImageFileTestJpg() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -99,6 +102,7 @@ public class ImageTests extends BaseTest {
 
 //    BMP
     @Test
+    @Step
     void uploadImageFileTestBmp() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -120,6 +124,7 @@ public class ImageTests extends BaseTest {
 
     //GIF
     @Test
+    @Step
     void uploadImageFileTestForGif() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -141,6 +146,7 @@ public class ImageTests extends BaseTest {
 
     // до 10 мб.
     @Test
+    @Step
     void uploadImageFileTestBefore10Mb() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -162,6 +168,7 @@ public class ImageTests extends BaseTest {
 
     //  image 1x1 px
     @Test
+    @Step
     void uploadImageFileTest1x1() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -183,6 +190,7 @@ public class ImageTests extends BaseTest {
     }
 
     @Test
+    @Step
     void uploadImageFileTestUrlGif() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -205,6 +213,7 @@ public class ImageTests extends BaseTest {
 
 
     @Test
+    @Step
     void uploadImageFileTestUrlPng() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -226,6 +235,7 @@ public class ImageTests extends BaseTest {
     }
 
     @Test
+    @Step
     void uploadImageFileTestUrlJpeg() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -247,6 +257,7 @@ public class ImageTests extends BaseTest {
     }
     // больше 10 мб = работает, если отключить  @BeforeAll в BaseTest positiveResponseSpecification (выносить в до=ругой класс?)
     @Test
+    @Step
     void uploadImageFileTestMore10Mb() {
 
         FofBigFileResponseSpecification = new ResponseSpecBuilder()
@@ -270,6 +281,7 @@ public class ImageTests extends BaseTest {
 
 //    работает, если отключить  @BeforeAll в BaseTest positiveResponseSpecification (выносить в до=ругой класс?)
     @Test
+    @Step
     void uploadImageFileTestText() {
 
         TextFileResponseSpecification = new ResponseSpecBuilder()
@@ -292,6 +304,7 @@ public class ImageTests extends BaseTest {
     }
 
     @Test
+    @Step
     void uploadImageFileTestVideo() {
         imageDeleteHash = given()
                 .spec(requestSpecification)
@@ -306,6 +319,7 @@ public class ImageTests extends BaseTest {
 
     }
     @Test
+    @Step
     void uploadBase64FileTest() {
         imageDeleteHash=  given()
                 .spec(requestSpecification)
